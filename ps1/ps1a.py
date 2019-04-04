@@ -61,24 +61,18 @@ def greedy_cow_transport(cows,limit=10):
     weighs_per_trip = 0
     list_per_trip= []
     total_list = []
-    for cow in cows_sorted:
-        print(cow)
-        weight = int(cow[1])
-        if(weighs_per_trip + weight < limit):
-            weighs_per_trip += weight
-            list_per_trip.append(cow[0])
-            #print("1 weighs_per_trip = ", weighs_per_trip)
-            #print("1 list_per_trip is", list_per_trip)
-        else:
-            total_list.append(list_per_trip)
-            list_per_trip = []
-            list_per_trip.append(cow[0])
-            weighs_per_trip = weight
-            total_trips += 1
-            #print("2 weighs_per_trip = ", weighs_per_trip)
-            #print("2 list_per_trip is", list_per_trip)
-    if(weighs_per_trip < limit):
+    transported = []
+    while len(transported) < len(cows):
+        for cow in cows_sorted:
+            if cow[0] not in transported:
+                weight = int(cow[1])
+                if(weighs_per_trip + weight <= limit):
+                    weighs_per_trip += weight
+                    list_per_trip.append(cow[0])
+                    transported.append(cow[0])
         total_list.append(list_per_trip)
+        weighs_per_trip = 0
+        list_per_trip = []
         total_trips += 1
     return total_list
     # TODO: Your code here
